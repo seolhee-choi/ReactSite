@@ -2,7 +2,7 @@ import { CLASS_CATEGORY } from "@/constants/category.constant.tsx";
 import { Button } from "@/components/ui";
 import { ChevronDown } from "lucide-react";
 
-const AppSidebar = () => {
+export const AppSidebar = () => {
   return (
     <aside className="min-w-60 w-60 flex flex-col gap-6">
       <div className="flex items-center gap-2">
@@ -27,5 +27,3 @@ const AppSidebar = () => {
     </aside>
   );
 };
-
-export { AppSidebar };

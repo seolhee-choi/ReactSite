@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui";
 import { NavLink, useNavigate } from "react-router";
 import { useAuthStore } from "@/stores";
 
-const AppHeader = () => {
+export const AppHeader = () => {
   const navigate = useNavigate();
 
   const user = useAuthStore((state) => state.user);
@@ -41,5 +41,3 @@ const AppHeader = () => {
     </header>
   );
 };
-
-export { AppHeader };

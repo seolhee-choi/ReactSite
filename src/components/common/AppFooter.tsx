@@ -1,6 +1,6 @@
 import { Button, Separator } from "@/components/ui";
 
-const AppFooter = () => {
+export const AppFooter = () => {
   return (
     <footer className="w-full flex flex-col items-center justify-center bg-[#121212]">
       <div className="w-full max-w[1328px] flex flex-col gap-6 p-6 pb-18">
@@ -63,5 +63,3 @@ const AppFooter = () => {
     </footer>
   );
 };
-
-export { AppFooter };

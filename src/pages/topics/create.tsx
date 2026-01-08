@@ -9,9 +9,11 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
+  Skeleton,
 } from "@/components/ui";
 import { ArrowLeft, Asterisk, BookOpenCheck, ImageOff, Save } from "lucide-react";
 import { TOPIC_CATEGORY } from "@/constants/category.constant.tsx";
+import { AppEditor } from "@/components/common";
 
 const CreateTopic = () => {
   return (
@@ -51,6 +53,7 @@ const CreateTopic = () => {
             <Label className="text-muted-foreground">본문</Label>
           </div>
           {/* BlockNote Text Editor UI */}
+          <AppEditor />
         </div>
       </section>
       {/* 카테고리 및 썸네일 등록 */}
