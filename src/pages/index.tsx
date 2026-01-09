@@ -4,18 +4,52 @@ import { AppSidebar } from "@/components/common";
 import { SkeletonHotTopic } from "@/components/skeleton/hot-topic.tsx";
 import { SkeletonNewTopic } from "@/components/skeleton/new-topic.tsx";
 import { useNavigate } from "react-router";
+import { useAuthStore } from "@/stores";
+import { toast } from "sonner";
+import supabase from "@/lib/supabase.ts";
 
 const App = () => {
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
+
+  // 나만의 토픽 생성 버튼 클릭시
+  const handleRoute = async () => {
+    if (!user.id || !user.email || !user.role) {
+      toast.warning("토픽 작성은 로그인 후 가능합니다.");
+      return;
+    }
+
+    // RLS Policy 설정할때, auth.uid() = author
+    const { data, error } = await supabase
+      .from("topic")
+      .insert([
+        {
+          title: null,
+          content: null,
+          category: null,
+          thumbnail: null,
+          author: user.id,
+        },
+      ])
+      .select();
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    if (data) {
+      toast.success("토픽을 생성하였습니다.");
+      navigate(`/topics/${data[0].id}/create`);
+    }
+  };
+
+  navigate("/topics/create");
 
   return (
     <main className="w-full h-full min-h-[720px] flex p-6 gap-6">
       <div className="fixed right-1/2 bottom-10 translate-x-1/2 z-20 item-center">
-        <Button
-          variant={"destructive"}
-          className="!py-5 !px-6 rounded-full"
-          onClick={() => navigate("/topics/create")}
-        >
+        <Button variant={"destructive"} className="!py-5 !px-6 rounded-full" onClick={handleRoute}>
           <PencilLine />
           나만의 토픽 작성
         </Button>
