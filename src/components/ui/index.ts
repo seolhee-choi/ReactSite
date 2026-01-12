@@ -26,3 +26,16 @@ export {
   FormField,
 } from "./form.tsx";
 export { Checkbox } from "./checkbox.tsx";
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from "./dialog.tsx";
+export { Badge, badgeVariants } from "./badge.tsx";
