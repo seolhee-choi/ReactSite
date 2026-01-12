@@ -22,7 +22,7 @@ import supabase from "@/lib/supabase.ts";
 import { nanoid } from "nanoid";
 import { TOPIC_STATUS } from "@/types/topic.type.ts";
 
-const CreateTopic = () => {
+export const CreateTopic = () => {
   const user = useAuthStore((state) => state.user);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -270,5 +270,3 @@ const CreateTopic = () => {
     </main>
   );
 };
-
-export default CreateTopic;

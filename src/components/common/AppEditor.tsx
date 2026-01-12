@@ -11,10 +11,11 @@ import { useEffect } from "react";
 
 interface Props {
   props: Block[];
-  setContent: (content: Block[]) => void;
+  setContent?: (content: Block[]) => void;
+  readonly?: boolean;
 }
 
-export const AppEditor = ({ props, setContent }: Props) => {
+export const AppEditor = ({ props, setContent, readonly }: Props) => {
   const editor = useCreateBlockNote({
     dictionary: ko,
   });
@@ -33,5 +34,15 @@ export const AppEditor = ({ props, setContent }: Props) => {
 
   // Render the editor
   // editor.document를 사용하면, block note에 작성하는 내용이 setContent에 저장됨
-  return <BlockNoteView editor={editor} onChange={() => setContent(editor.document)} />;
+  return (
+    <BlockNoteView
+      editor={editor}
+      editable={!readonly}
+      onChange={() => {
+        if (!readonly) {
+          setContent?.(editor.document);
+        }
+      }}
+    />
+  );
 };
