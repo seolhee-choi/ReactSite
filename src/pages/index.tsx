@@ -7,10 +7,38 @@ import { useNavigate } from "react-router";
 import { useAuthStore } from "@/stores";
 import { toast } from "sonner";
 import supabase from "@/lib/supabase.ts";
+import type { Topic } from "@/types/topic.type.ts";
+import { useEffect, useState } from "react";
+import { NewTopicCard } from "@/components/topics/new-topic.tsx";
 
 const App = () => {
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
+
+  const [topics, setTopics] = useState<Topic[]>([]);
+
+  // 발행된 토픽 조회
+  const fetchTopics = async () => {
+    try {
+      const { data: topics, error } = await supabase
+        .from("topic")
+        .select("*")
+        .eq("status", "publish");
+
+      console.log(topics);
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
+      if (topics) {
+        setTopics(topics);
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 
   // 나만의 토픽 생성 버튼 클릭시
   const handleRoute = async () => {
@@ -44,7 +72,9 @@ const App = () => {
     }
   };
 
-  navigate("/topics/create");
+  useEffect(() => {
+    fetchTopics();
+  }, []);
 
   return (
     <main className="w-full h-full min-h-[720px] flex p-6 gap-6">
@@ -95,12 +125,19 @@ const App = () => {
               새로운 시선으로, 새로운 이야기를 시작하세요. 지금 바로 당신만의 토픽을 작성해보세요.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-6">
-            <SkeletonNewTopic />
-            <SkeletonNewTopic />
-            <SkeletonNewTopic />
-            <SkeletonNewTopic />
-          </div>
+          {topics.length > 0 ? (
+            <div className="min-h-120 grid grid-cols-2 gap-6">
+              {topics
+                .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+                .map((topic: Topic) => {
+                  return <NewTopicCard props={topic} />;
+                })}
+            </div>
+          ) : (
+            <div className="w-full min-h-120 flex items-center justify-center">
+              <p className="text-muted-foreground/50">조회 가능한 토픽이 없습니다.</p>
+            </div>
+          )}
         </div>
       </section>
     </main>

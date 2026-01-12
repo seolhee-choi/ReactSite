@@ -39,3 +39,12 @@ export {
   DialogTrigger,
 } from "./dialog.tsx";
 export { Badge, badgeVariants } from "./badge.tsx";
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent,
+} from "./card.tsx";
